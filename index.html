@@ -387,8 +387,7 @@ word-wrap: break-word;
 }
 
 .card { display: block;
-margin: 15px auto; 
-max-width: 100%;
+margin: 15px auto; max-width: 100%;
 box-sizing: border-box;
 }
 .card h3 {
@@ -399,7 +398,7 @@ margin-bottom: 10px;
 
 .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
 width: 100%;
-max-width: 600px;
+max-width: min(600px, 100vw);
 margin: 0 auto;
 }
 
