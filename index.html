@@ -11,7 +11,7 @@
 
 
 
-<title>bingo.knit</title>
+<title>bingo_optimized.knit</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -365,33 +365,66 @@ src: url(data:font/woff2;base64,d09GMgABAAAAAEl4ABAAAAAAxHwAAEkbAAEAAAAAAAAAAAAA
 font-weight: normal;
 font-style: normal;
 }
+
 body {
-background-color: #E2DED6; font-family: "Survivant", "Inter Tight";
+background-color: #E2DED6; font-family: "Survivant", "Inter Tight", sans-serif;
 color: #333; padding: 20px;
+margin: 0;
+
+-webkit-overflow-scrolling: touch;
 }
 .header-logo {
 text-align: center;
 margin-bottom: 20px;
 }
 .header-logo img {
-height: 150px;
+max-width: 100%;
+height: auto;
+max-height: 150px;
 }
 h1.title {
-font-weight: 700; font-size: 3em; text-align: center; margin-bottom: 10px;
+font-weight: 700; font-size: clamp(2em, 8vw, 3em); 
+text-align: center; margin-bottom: 10px;
+word-wrap: break-word;
 }
-.card { display: inline-block; margin: 15px; vertical-align: top; }
-.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+
+.card { display: inline-block; margin: 15px; vertical-align: top;
+max-width: 100%;
+box-sizing: border-box;
+}
+.card h3 {
+font-size: clamp(1.2em, 4vw, 1.5em);
+text-align: center;
+margin-bottom: 10px;
+}
+
+.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+width: 100%;
+max-width: 600px;
+margin: 0 auto;
+}
+
 .cell {
 background: #eee;
 border: 1px solid #333;
 padding: 6px;
-height: 120px;
+min-height: 80px; 
 position: relative;
-font-size: 14px;
+font-size: clamp(11px, 2.5vw, 14px); 
 box-sizing: border-box;
 text-align: center;
 display: grid;
 place-items: center;
+aspect-ratio: 1; 
+overflow: hidden; 
+}
+.cell .text {
+word-wrap: break-word;
+overflow-wrap: break-word;
+hyphens: auto;
+max-width: 100%;
+line-height: 1.2;
+padding: 2px;
 }
 .cell.free {
 background: #D1CFC7;
@@ -410,8 +443,7 @@ place-items: center;
 .cell.loser {
 background: #f8d7da;
 border: 2px solid #dc3545;
-text-align: center;display: grid;
-place-items: center;
+text-align: center;
 display: grid;
 place-items: center;
 }
@@ -421,29 +453,114 @@ position: absolute;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
-font-size: 60px;
+font-size: clamp(40px, 10vw, 60px); 
 font-weight: bold;
 color: rgb(0, 0, 0);
 opacity: 0.5;
+pointer-events: none; 
 }
+
 .toc {
 text-align: center;
-margin: 30px 0;
+margin: 30px auto;
 padding: 15px;
 background: transparent;
 border-radius: 4px;
+max-width: 800px;
 }
 .toc a {
 display: inline-block;
-margin: 10px 10px;
+margin: 5px;
 padding: 8px 16px;
 background: #D1CFC7;
 color: #333;
 text-decoration: none;
 border-radius: 4px;
+font-size: clamp(0.9em, 3vw, 1em);
+
+min-height: 44px;
+min-width: 44px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
 }
 .toc a:hover {
 background: #bfbdb5;
+}
+
+@media (max-width: 768px) {
+body {
+padding: 10px;
+}
+.header-logo img {
+max-height: 100px;
+}
+.card {
+margin: 10px auto;
+display: block;
+width: 100%;
+max-width: 500px;
+}
+.grid {
+gap: 3px;
+}
+.cell {
+padding: 4px;
+min-height: 60px;
+}
+.toc {
+padding: 10px;
+}
+.toc a {
+margin: 3px;
+padding: 6px 12px;
+}
+}
+
+@media (max-width: 480px) {
+body {
+padding: 5px;
+}
+.header-logo img {
+max-height: 80px;
+}
+h1.title {
+margin-bottom: 5px;
+}
+.card {
+margin: 5px auto;
+}
+.grid {
+gap: 2px;
+}
+.cell {
+padding: 3px;
+min-height: 50px;
+border-width: 1px;
+}
+.cell.winner,
+.cell.loser {
+border-width: 1px;
+}
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+.grid {
+max-width: 80vh;
+}
+}
+
+@media print {
+body {
+background-color: white;
+}
+.toc {
+display: none;
+}
+.card {
+page-break-inside: avoid;
+margin: 20px;
+}
 }
 </style>
 <div class="toc">
@@ -514,9 +631,7 @@ background: #bfbdb5;
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -625,9 +740,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -736,9 +849,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -844,9 +955,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -956,9 +1065,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1065,9 +1172,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1176,9 +1281,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1285,9 +1388,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1395,9 +1496,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1505,9 +1604,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1614,9 +1711,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1725,9 +1820,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1835,9 +1928,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
@@ -1945,9 +2036,7 @@ pick</span>
 <span class="mark"></span>
 </div>
 <div class="cell free">
-<span style="display:block; font-weight:bold;">FREE SPACE
- 
- </span>
+<span style="display:block; font-weight:bold;">FREE SPACE</span>
 <span style="display:block;">&#39;The tribe has spoken&#39;</span>
 <span class="mark">X</span>
 </div>
