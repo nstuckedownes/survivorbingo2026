@@ -398,7 +398,6 @@ margin-bottom: 10px;
 
 .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
 width: 100%;
-max-width: min(600px, 100vw);
 margin: 0 auto;
 box-sizing: border-box;
 }
@@ -532,7 +531,9 @@ margin-bottom: 5px;
 margin: 5px auto;
 }
 .grid {
-gap: 2px;
+gap: 3px;
+max-width: 100%; 
+width: calc(100vw - 20px); 
 }
 .cell {
 padding: 3px;
@@ -547,8 +548,8 @@ border-width: 1px;
 
 @media (max-width: 768px) and (orientation: landscape) {
 .grid {
-max-width: 80vh;
-}
+gap: 3px;
+max-width: 100%; width: calc(100vw - 20px); }
 }
 
 @media print {
